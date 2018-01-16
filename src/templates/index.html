@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="static/assets/images/favicon.png">
+    <title>Статистика по russkoeradio</title>
+    <!-- Bootstrap Core CSS -->
+    <link href="static/assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="static/assets/plugins/bootstrap-datetimepicker.min.css" rel="stylesheet">
+    <!-- This page CSS -->
+    <!-- chartist CSS -->
+    <link href="static/assets/plugins/c3-master/c3.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="static/css/style.css" rel="stylesheet">
+    <!-- Dashboard 1 Page CSS -->
+    <link href="static/css/pages/dashboard.css" rel="stylesheet">
+    <!-- You can change the theme colors from here -->
+    <link href="static/css/colors/default-dark.css" id="theme" rel="stylesheet">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="static/https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="static/https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+</head>
+
+<body class="fix-header fix-sidebar card-no-border">
+    <!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+    <div class="preloader">
+        <div class="loader">
+            <div class="loader__figure"></div>
+            <p class="loader__label">APPtimizm</p>
+        </div>
+    </div>
+    <!-- ============================================================== -->
+    <!-- Main wrapper - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    <div id="main-wrapper">
+        <!-- ============================================================== -->
+        <!-- Topbar header - style you can find in pages.scss -->
+        <!-- ============================================================== -->
+        <header class="topbar">
+            <nav class="navbar top-navbar navbar-expand-md navbar-light">
+                <!-- ============================================================== -->
+                <!-- Logo -->
+                <!-- ============================================================== -->
+                <div class="navbar-header">
+                        <!--End Logo icon -->
+                        <!-- Logo text -->
+                        <span>
+                            <img src="static/assets/images/logo-text.svg" alt="homepage" class="dark-logo" />
+                        </span>
+                </div>
+                <!-- ============================================================== -->
+                <!-- End Logo -->
+                <!-- ============================================================== -->
+                <div class="navbar-collapse">
+                    <!-- ============================================================== -->
+                    <!-- toggle and nav items -->
+                    <!-- ============================================================== -->
+                    <ul class="navbar-nav mr-auto"></ul>
+                    <!-- ============================================================== -->
+                    <!-- User profile and search -->
+                    <!-- ============================================================== -->
+                    <ul class="navbar-nav my-lg-0">
+                        <a href="/logout" class="btn btn-info">Выход</a>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <!-- ============================================================== -->
+        <!-- End Topbar header -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+        <aside class="left-sidebar">
+            <!-- Sidebar scroll-->
+            <div class="scroll-sidebar">
+                <!-- Sidebar navigation-->
+                <nav class="sidebar-nav">
+                    <ul id="sidebarnav">
+                        {% for stream in stream_list %}
+                        <li> <a class="waves-effect waves-dark" href="/{{ stream.id }}" aria-expanded="false"><i class="mdi mdi-radio-tower"></i><span class="hide-menu">{{ stream.name }}</span></a></li>
+                        {% endfor %}
+                    </ul>
+
+                </nav>
+                <!-- End Sidebar navigation -->
+            </div>
+            <!-- End Sidebar scroll-->
+        </aside>
+        <!-- ============================================================== -->
+        <!-- End Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Page wrapper  -->
+        <!-- ============================================================== -->
+        <div class="page-wrapper">
+            <!-- ============================================================== -->
+            <!-- Container fluid  -->
+            <!-- ============================================================== -->
+            <div class="container-fluid">
+                <!-- ============================================================== -->
+                <!-- Bread crumb and right sidebar toggle -->
+                <!-- ============================================================== -->
+                <div class="row page-titles">
+                    <div class="col-md-12 align-self-center">
+                        <h3 class="col-md-5 text-themecolor pull-left">{{ stream_name }}</h3>
+                        <div class='col-md-2 pull-right'>
+                            <div class="form-group">
+                                <span class="text-center">Выберите дату:</span>
+                                <div class='input-group date' id='datetimepicker2'>
+                                    <input type='text' class="form-control" />
+                                    <span class="input-group-addon">
+                                        <span class="mdi mdi-calendar"></span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- ============================================================== -->
+                <!-- End Bread crumb and right sidebar toggle -->
+                <!-- ============================================================== -->
+                <!-- ============================================================== -->
+                <!-- Sales overview chart -->
+                <!-- ============================================================== -->
+                <div class="row">
+                    <div class="col-lg-12 col-md-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="d-flex">
+                                    <div>
+                                        <h3 class="card-title m-b-5"><span class="lstick"></span>Детальная статистика обработанных данных по количеству слушателей</h3>
+                                    </div>
+{#                                    <div class="ml-auto">#}
+{#                                        <select class="custom-select b-0">#}
+{#                                            <option selected="">13.11.2017</option>#}
+{#                                        </select>#}
+{#                                    </div>#}
+                                </div>
+                                <div id="no_data" class="hide align-middle alert alert-info text-center">
+                                  <span>
+                                      Нет графика для выбранного времени
+                                  </span>
+                                </div>
+                                <div id='{{ stream_id|safe }}' class="chart" style="height: 360px;"> </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- ============================================================== -->
+                <!-- End Page Content -->
+                <!-- ============================================================== -->
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Container fluid  -->
+            <!-- ============================================================== -->
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Page wrapper  -->
+        <!-- ============================================================== -->
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Wrapper -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- All Jquery -->
+    <!-- ============================================================== -->
+    <script src="static/assets/plugins/jquery/jquery.min.js"></script>
+    <script src="http://code.highcharts.com/highcharts.js"></script>
+    <script>
+        var stream_id = '{{ stream_id|safe }}';
+        var stream_name = '{{ stream_name|safe }}';
+    </script>
+    <script src="static/js/dashboard.js"></script>
+    <!-- Bootstrap popper Core JavaScript -->
+    <script src="static/assets/plugins/moment.js"></script>
+    <script src="static/assets/plugins/bootstrap/js/popper.min.js"></script>
+    <script src="static/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script src="static/assets/plugins/bootstrap/js/transition.js"></script>
+    <script src="static/assets/plugins/bootstrap/js/collapse.js"></script>
+    <script src="static/assets/plugins/bootstrap-datetimepicker.js"></script>
+
+
+    <!-- slimscrollbar scrollbar JavaScript -->
+    <script src="static/js/perfect-scrollbar.jquery.min.js"></script>
+    <!--Wave Effects -->
+    <script src="static/js/waves.js"></script>
+    <!--Menu sidebar -->
+    <script src="static/js/sidebarmenu.js"></script>
+    <!--Custom JavaScript -->
+    <script src="static/js/custom.min.js"></script>
+    <!-- ============================================================== -->
+    <!-- This page plugins -->
+    <!-- ============================================================== -->
+    <!--c3 JavaScript -->
+    <script src="static/assets/plugins/d3/d3.min.js"></script>
+    <script src="static/assets/plugins/c3-master/c3.min.js"></script>
+    <!-- Chart JS -->
+</body>
+
+</html>

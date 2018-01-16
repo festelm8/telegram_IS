@@ -1,0 +1,30 @@
+version: "2"
+
+services:
+
+  web:
+    build: .
+    depends_on:
+     - "postgres"
+    ports:
+     - "5000:5000"
+    environment:
+     - "PYTHONUNBUFFERED=0"
+    volumes:
+     - ".:/srv/rr-logs"
+    tty: true
+
+  postgres:
+    build: ./docker/postgres
+    ports:
+     - "5432:5432"
+    environment:
+      - "PGDATA=/var/lib/postgresql/rr_logs"
+      - "PYTHONPATH=."
+    volumes:
+      - "./docker_files/postgres:/var/lib/postgresql/rr_logs"
+
+  redis:
+    image: redis:3.0
+    volumes:
+      - ./docker_files/redis:/data

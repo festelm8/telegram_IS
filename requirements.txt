@@ -1,0 +1,43 @@
+# app
+Flask>=0.12
+Flask-RESTful>=0.3.5
+Flask-Script>=2.0.5
+flask_login
+
+# db
+SQLAlchemy>=1.1.4
+Flask-SQLAlchemy>=2.1
+alembic-verify>=0.1.4
+sqlalchemy-diff>=0.1.3
+psycopg2>=2.6.2
+Flask-Migrate>=2.0.3
+
+#validation
+webargs>=1.7.0
+
+#redis
+redis>=2.10.5
+flask_rq2
+
+#push message Service
+pyfcm
+
+#send Mail and messages
+eventlet
+gevent-websocket
+
+# debug tools
+ipython
+names
+tqdm
+
+# linters
+pylama
+pylama_pylint
+pyflakes
+pydocstyle
+mccabe
+radon
+
+# Tests
+flask-testing>=0.6.2
