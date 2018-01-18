@@ -5,7 +5,7 @@ from webargs.flaskparser import parser
 
 from src.schemas.web import login_post
 from src.lib.access import login_manager, validate_uuid
-from src.db.models import User, Stream
+from src.db.models import User
 from src.lib.utils import get_config
 
 
@@ -20,28 +20,28 @@ def handle_unprocessable_entity(err):
 def handle_unauthorized_user(err):
     return redirect(url_for('bp_web.login'))
 
-@bp_web.route('/')
-@login_required
-def index():
-    stream = Stream.query.first()
-    if not stream:
-        print('*** No streams added!')
-        return False
-    return redirect(url_for('bp_web.stream_statistic', stream_id=stream.id))
+# @bp_web.route('/')
+# @login_required
+# def index():
+#     stream = Stream.query.first()
+#     if not stream:
+#         print('*** No streams added!')
+#         return False
+#     return redirect(url_for('bp_web.stream_statistic', stream_id=stream.id))
 
-@bp_web.route('/<stream_id>')
-@login_required
-def stream_statistic(stream_id):
-    if validate_uuid(stream_id):
-        stream = Stream.query.get(stream_id)
-        if stream:
-            streams = Stream.query.all()
-            stream_list = [{
-                'name': entry.name,
-                'id': entry.id
-            } for entry in streams]
-            return render_template('index.html', stream_name=stream.name, stream_id=stream.id, stream_list=stream_list)
-    return render_template('404.html')
+# @bp_web.route('/<stream_id>')
+# @login_required
+# def stream_statistic(stream_id):
+#     if validate_uuid(stream_id):
+#         stream = Stream.query.get(stream_id)
+#         if stream:
+#             streams = Stream.query.all()
+#             stream_list = [{
+#                 'name': entry.name,
+#                 'id': entry.id
+#             } for entry in streams]
+#             return render_template('index.html', stream_name=stream.name, stream_id=stream.id, stream_list=stream_list)
+#     return render_template('404.html')
 
 
 @bp_web.route('/login', methods=['GET', 'POST'])

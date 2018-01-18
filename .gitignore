@@ -1,0 +1,9 @@
+*~*
+*.bak
+*.puc
+*.swp
+*__pycache__/
+docker_files/
+.venv/*
+instance/*
+.idea/

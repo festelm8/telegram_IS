@@ -17,10 +17,7 @@ webargs>=1.7.0
 
 #redis
 redis>=2.10.5
-flask_rq2
-
-#push message Service
-pyfcm
+flask_rq2==17.0
 
 #send Mail and messages
 eventlet

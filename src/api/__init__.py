@@ -7,7 +7,6 @@ from src.db.models import User
 from src.api import (
     ping,
     login,
-    statistic,
 )
 
 bp_app = Blueprint('bp_app', __name__)
@@ -33,5 +32,4 @@ def current_user():
 
 api.add_resource(ping.PingAPI, '/ping')
 api.add_resource(login.LoginAPI, '/auth/login')
-api.add_resource(statistic.StatisticAPI, '/statistic/<stream_id>')
 
