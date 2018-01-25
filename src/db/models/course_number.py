@@ -11,5 +11,6 @@ class CourseNumber(db.Model):
                    server_default=db.text('gen_random_uuid()'),
                    primary_key=True)
     number = db.Column(db.INTEGER, default=0)
-    course_theme = db.Column(UUID, db.ForeignKey('course_themes.id'))
-    subjects = db.relationship('Game', secondary=course_number_subjects, lazy='dynamic')
+    course_theme_id = db.Column(UUID, db.ForeignKey('course_themes.id'))
+    course_theme = db.relationship('CourseTheme')
+    subjects = db.relationship('Subject', secondary=course_number_subjects, lazy='dynamic')

@@ -20,7 +20,8 @@ class User(db.Model):
                    primary_key=True)
     tid = db.Column(db.INTEGER)
     password = db.Column(db.VARCHAR(256))
-    course_group = db.Column(UUID, db.ForeignKey('course_groups.id'))
+    course_group_id = db.Column(UUID, db.ForeignKey('course_groups.id'))
+    course_group = db.relationship('CourseGroup')
 
     is_banned = db.Column(db.BOOLEAN, default=False)
     banned_at = db.Column(db.TIMESTAMP(timezone=True))

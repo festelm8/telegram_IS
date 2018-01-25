@@ -11,4 +11,6 @@ class Subject(db.Model):
                    server_default=db.text('gen_random_uuid()'),
                    primary_key=True)
     name = db.Column(db.VARCHAR(255))
-    teacher = db.Column(UUID, db.ForeignKey('teachers.id'))
+    teacher_id = db.Column(UUID, db.ForeignKey('teachers.id'))
+    teacher = db.relationship('Teacher')
+    desc = db.Column(db.TEXT)

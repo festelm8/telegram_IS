@@ -11,4 +11,5 @@ class EventLog(db.Model):
                    server_default=db.text('gen_random_uuid()'),
                    primary_key=True)
     msg = db.Column(db.VARCHAR(255))
-    course_number = db.Column(UUID, db.ForeignKey('course_numbers.id'))
+    course_number_id = db.Column(UUID, db.ForeignKey('course_numbers.id'))
+    course_number = db.relationship('CourseNumber')

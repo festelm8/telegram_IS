@@ -11,4 +11,5 @@ class CourseGroup(db.Model):
                    server_default=db.text('gen_random_uuid()'),
                    primary_key=True)
     gid = db.Column(db.INTEGER, default=0)
-    course_number = db.Column(UUID, db.ForeignKey('course_numbers.id'))
+    course_number_id = db.Column(UUID, db.ForeignKey('course_numbers.id'))
+    course_number = db.relationship('CourseNumber')

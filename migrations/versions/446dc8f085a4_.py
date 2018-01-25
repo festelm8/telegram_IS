@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 44f96b0c31bd
+Revision ID: 446dc8f085a4
 Revises: 
-Create Date: 2018-01-25 20:25:05.690232
+Create Date: 2018-01-25 21:42:50.220702
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 from sqlalchemy.dialects import postgresql
 
 # revision identifiers, used by Alembic.
-revision = '44f96b0c31bd'
+revision = '446dc8f085a4'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -27,20 +27,23 @@ def upgrade():
     sa.Column('id', postgresql.UUID(), server_default=sa.text('gen_random_uuid()'), autoincrement=False, nullable=False),
     sa.Column('name', sa.VARCHAR(length=255), autoincrement=False, nullable=True),
     sa.Column('email', sa.VARCHAR(length=255), autoincrement=False, nullable=True),
-    sa.PrimaryKeyConstraint('id', name='teachers_pkey')
+    sa.PrimaryKeyConstraint('id', name='teachers_pkey'),
+    postgresql_ignore_search_path=False
     )
     op.create_table('course_numbers',
     sa.Column('id', postgresql.UUID(), server_default=sa.text('gen_random_uuid()'), autoincrement=False, nullable=False),
     sa.Column('number', sa.INTEGER(), autoincrement=False, nullable=True),
-    sa.Column('course_theme', postgresql.UUID(), autoincrement=False, nullable=True),
-    sa.ForeignKeyConstraint(['course_theme'], ['course_themes.id'], name='course_numbers_course_theme_fkey'),
-    sa.PrimaryKeyConstraint('id', name='course_numbers_pkey')
+    sa.Column('course_theme_id', postgresql.UUID(), autoincrement=False, nullable=True),
+    sa.ForeignKeyConstraint(['course_theme_id'], ['course_themes.id'], name='course_numbers_course_theme_id_fkey'),
+    sa.PrimaryKeyConstraint('id', name='course_numbers_pkey'),
+    postgresql_ignore_search_path=False
     )
     op.create_table('subjects',
     sa.Column('id', postgresql.UUID(), server_default=sa.text('gen_random_uuid()'), autoincrement=False, nullable=False),
     sa.Column('name', sa.VARCHAR(length=255), autoincrement=False, nullable=True),
-    sa.Column('teacher', postgresql.UUID(), autoincrement=False, nullable=True),
-    sa.ForeignKeyConstraint(['teacher'], ['teachers.id'], name='subjects_teacher_fkey'),
+    sa.Column('teacher_id', postgresql.UUID(), autoincrement=False, nullable=True),
+    sa.Column('desc', sa.TEXT(), autoincrement=False, nullable=True),
+    sa.ForeignKeyConstraint(['teacher_id'], ['teachers.id'], name='subjects_teacher_id_fkey'),
     sa.PrimaryKeyConstraint('id', name='subjects_pkey')
     )
     op.create_table('class_schedule',
@@ -56,8 +59,8 @@ def upgrade():
     op.create_table('course_groups',
     sa.Column('id', postgresql.UUID(), server_default=sa.text('gen_random_uuid()'), autoincrement=False, nullable=False),
     sa.Column('gid', sa.INTEGER(), autoincrement=False, nullable=True),
-    sa.Column('course_number', postgresql.UUID(), autoincrement=False, nullable=True),
-    sa.ForeignKeyConstraint(['course_number'], ['course_numbers.id'], name='course_groups_course_number_fkey'),
+    sa.Column('course_number_id', postgresql.UUID(), autoincrement=False, nullable=True),
+    sa.ForeignKeyConstraint(['course_number_id'], ['course_numbers.id'], name='course_groups_course_number_id_fkey'),
     sa.PrimaryKeyConstraint('id', name='course_groups_pkey')
     )
     op.create_table('course_number_subjects',
@@ -69,21 +72,21 @@ def upgrade():
     op.create_table('event_log',
     sa.Column('id', postgresql.UUID(), server_default=sa.text('gen_random_uuid()'), autoincrement=False, nullable=False),
     sa.Column('msg', sa.VARCHAR(length=255), autoincrement=False, nullable=True),
-    sa.Column('course_number', postgresql.UUID(), autoincrement=False, nullable=True),
-    sa.ForeignKeyConstraint(['course_number'], ['course_numbers.id'], name='event_log_course_number_fkey'),
+    sa.Column('course_number_id', postgresql.UUID(), autoincrement=False, nullable=True),
+    sa.ForeignKeyConstraint(['course_number_id'], ['course_numbers.id'], name='event_log_course_number_id_fkey'),
     sa.PrimaryKeyConstraint('id', name='event_log_pkey')
     )
     op.create_table('users',
     sa.Column('id', postgresql.UUID(), server_default=sa.text('gen_random_uuid()'), autoincrement=False, nullable=False),
     sa.Column('tid', sa.INTEGER(), autoincrement=False, nullable=True),
     sa.Column('password', sa.VARCHAR(length=256), autoincrement=False, nullable=True),
-    sa.Column('course_group', postgresql.UUID(), autoincrement=False, nullable=True),
+    sa.Column('course_group_id', postgresql.UUID(), autoincrement=False, nullable=True),
     sa.Column('is_banned', sa.BOOLEAN(), autoincrement=False, nullable=True),
     sa.Column('banned_at', postgresql.TIMESTAMP(timezone=True), autoincrement=False, nullable=True),
     sa.Column('is_deleted', sa.BOOLEAN(), autoincrement=False, nullable=True),
     sa.Column('deleted_at', postgresql.TIMESTAMP(timezone=True), autoincrement=False, nullable=True),
     sa.Column('created_at', postgresql.TIMESTAMP(timezone=True), server_default=sa.text('(now())::timestamp(0) without time zone'), autoincrement=False, nullable=True),
-    sa.ForeignKeyConstraint(['course_group'], ['course_groups.id'], name='users_course_group_fkey'),
+    sa.ForeignKeyConstraint(['course_group_id'], ['course_groups.id'], name='users_course_group_id_fkey'),
     sa.PrimaryKeyConstraint('id', name='users_pkey')
     )
     # ### end Alembic commands ###
