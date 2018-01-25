@@ -9,12 +9,16 @@ import telebot
 from src import create_app
 from src.db import db, rq
 from src.tests import run_unit_tests
+from src.lib.db import include_url_to_config
+from src.lib.context import shel_context
 from flask_script import Manager, Command, Shell
 from flask_rq2.script import RQManager
 from flask_migrate import Migrate, MigrateCommand
 
 app = create_app()
 migrate = Migrate(app, db)
+migrate.configure_callbacks.append(include_url_to_config)
+
 manager = Manager(app, with_default_commands=False, usage='Manage montecristo instance')
 
 def run():
@@ -61,7 +65,7 @@ manager.add_command('db', MigrateCommand)
 manager.add_command("run", Command(run))
 manager.add_command('rq', RQManager(rq))
 manager.add_command("test", tests_command)
-manager.add_command("shell", Shell())
+manager.add_command("shell", Shell(make_context=shel_context))
 manager.add_command("cock", Command(cock))
 
 if __name__ == '__main__':

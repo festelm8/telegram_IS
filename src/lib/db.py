@@ -1,5 +1,4 @@
 import os
-
 from alembic.config import Config
 #from alembic import command
 from alembic.script import ScriptDirectory
@@ -9,6 +8,14 @@ from sqlalchemydiff.util import (
     get_temporary_uri,
     new_db,
 )
+
+from utils import get_config
+
+
+
+def include_url_to_config(config):
+    config.set_main_option("sqlalchemy.url", get_config('SQLALCHEMY_DATABASE_URI'))
+    return config
 
 
 def create_temp_config(app):
