@@ -11,7 +11,7 @@ services:
     environment:
      - "PYTHONUNBUFFERED=0"
     volumes:
-     - ".:/srv/rr-logs"
+     - ".:/srv/telegram_is"
     tty: true
 
   postgres:
@@ -19,10 +19,10 @@ services:
     ports:
      - "5432:5432"
     environment:
-      - "PGDATA=/var/lib/postgresql/rr_logs"
+      - "PGDATA=/var/lib/postgresql/telegram_is"
       - "PYTHONPATH=."
     volumes:
-      - "./docker_files/postgres:/var/lib/postgresql/rr_logs"
+      - "./docker_files/postgres:/var/lib/postgresql/telegram_is"
 
   redis:
     image: redis:3.0

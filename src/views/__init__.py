@@ -11,7 +11,6 @@ from src.lib.utils import get_config
 
 bp_web = Blueprint('bp_web', __name__)
 
-
 @bp_web.errorhandler(422)
 def handle_unprocessable_entity(err):
     return render_template('login.html', err_msg='Необходимо указать логин и пароль')

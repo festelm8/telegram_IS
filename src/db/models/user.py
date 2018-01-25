@@ -18,9 +18,9 @@ class User(db.Model):
     id = db.Column(UUID,
                    server_default=db.text('gen_random_uuid()'),
                    primary_key=True)
-    name = db.Column(db.VARCHAR(80))
-    email = db.Column(db.VARCHAR(120))
+    tid = db.Column(db.INTEGER)
     password = db.Column(db.VARCHAR(256))
+    course_group = db.Column(UUID, db.ForeignKey('course_groups.id'))
 
     is_banned = db.Column(db.BOOLEAN, default=False)
     banned_at = db.Column(db.TIMESTAMP(timezone=True))

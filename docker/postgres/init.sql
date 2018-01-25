@@ -1,6 +1,6 @@
 \c template1;
 CREATE EXTENSION pgcrypto;
-CREATE DATABASE rr_logs;
+CREATE DATABASE telegram_is;
 
 CREATE USER docker with superuser password 'docker';
-GRANT ALL privileges ON DATABASE rr_logs TO docker;
+GRANT ALL privileges ON DATABASE telegram_is TO docker;
