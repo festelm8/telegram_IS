@@ -1,8 +1,9 @@
 """Initialization of all codebase."""
-from flask import Flask
+from flask import Flask, request
 
 from src.api import bp_app
 from src.views import bp_web
+from src.telehandler import bp_tele
 from src.lib.access import login_manager
 from src.db import db, rq
 
@@ -22,7 +23,10 @@ def create_app():
                 print(resp.get_data().decode())
             return resp
 
+
     app.register_blueprint(bp_app, url_prefix='/api')
+    app.register_blueprint(bp_tele)
     app.register_blueprint(bp_web)
+
 
     return app

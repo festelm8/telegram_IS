@@ -13,3 +13,4 @@ class CourseGroup(db.Model):
     gid = db.Column(db.VARCHAR(30))
     course_number_id = db.Column(UUID, db.ForeignKey('course_numbers.id'))
     course_number = db.relationship('CourseNumber')
+    class_schedule = db.relationship('ClassSchedule', lazy='dynamic')

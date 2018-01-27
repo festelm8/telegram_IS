@@ -10,7 +10,6 @@ from src.db import db, rq
 from src.tests import run_unit_tests
 from src.lib.db import include_url_to_config
 from src.lib.context import shel_context
-from src.lib.telehandler import tbot
 from flask_script import Manager, Command, Shell
 from flask_rq2.script import RQManager
 from flask_migrate import Migrate, MigrateCommand
@@ -29,9 +28,6 @@ def run():
         threaded=True
     )
 
-def tbot_run():
-    tbot.polling()
-
 
 tests_command = Command(run_unit_tests)
 tests_command.option_list[0].kwargs['nargs'] = '*'
@@ -41,7 +37,6 @@ manager.add_command("run", Command(run))
 manager.add_command('rq', RQManager(rq))
 manager.add_command("test", tests_command)
 manager.add_command("shell", Shell(make_context=shel_context))
-manager.add_command("tbot_run", Command(tbot_run))
 
 if __name__ == '__main__':
     manager.run()

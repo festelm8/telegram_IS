@@ -13,4 +13,5 @@ class CourseNumber(db.Model):
     number = db.Column(db.INTEGER, default=0)
     course_theme_id = db.Column(UUID, db.ForeignKey('course_themes.id'))
     course_theme = db.relationship('CourseTheme')
+    course_group = db.relationship('CourseGroup')
     subjects = db.relationship('Subject', secondary=course_number_subjects, lazy='dynamic')
