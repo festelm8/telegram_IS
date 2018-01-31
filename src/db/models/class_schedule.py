@@ -11,6 +11,7 @@ class ClassSchedule(db.Model):
                    server_default=db.text('gen_random_uuid()'),
                    primary_key=True)
     dow = db.Column(db.VARCHAR(5))
+    seq = db.Column(db.INTEGER)
     classroom = db.Column(db.VARCHAR(30))
     course_group_id = db.Column(UUID, db.ForeignKey('course_groups.id'))
     course_group = db.relationship('CourseGroup')

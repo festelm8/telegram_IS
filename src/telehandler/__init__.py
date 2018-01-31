@@ -4,17 +4,17 @@ import time
 import telebot
 import json
 
-from src.db.models import CourseTheme, CourseNumber, CourseGroup, Subject, User
+from src.db.models import CourseTheme, CourseNumber, CourseGroup, Subject, ClassSchedule, User
 from src.db import session
 
 bp_tele = Blueprint('bp_tele', __name__)
 secret = '516834738:AAFiBE5c-0TDGBQUBY2OvDvHDgh0UNBZrOU'
 tbot = telebot.TeleBot(secret)
 tbot.remove_webhook()
-tbot.set_webhook(url="https://23bf6695.ngrok.io/{}".format(secret))
+tbot.set_webhook(url="https://609be561.ngrok.io/{}".format(secret))
 
 
-@bp_tele.route('/516834738:AAFiBE5c-0TDGBQUBY2OvDvHDgh0UNBZrOU', methods=['POST'])
+@bp_tele.route('/'+secret, methods=['POST'])
 def webhook():
     # return "ok", 200
     updates = telebot.types.Update.de_json(request.stream.read().decode("utf-8"))
@@ -178,11 +178,11 @@ def get_dows(message):
 def class_schedule(dow, tid):
     user = User.query.filter_by(tid=tid).first()
     if user:
-        schedule = user.course_group.class_schedule.filter_by(dow=dow).all()
+        schedule = user.course_group.class_schedule.filter_by(dow=dow).order_by(ClassSchedule.seq).all()
         if schedule:
             text = str()
             for lection in schedule:
-                text += '\U0001F4D6 '+lection.subject.name+' ('+lection.classroom+')\r\n'
+                text += '\U0001F4D6 '+str(lection.seq)+' пара: '+lection.subject.name+' ('+lection.classroom+' ауд.)\r\n'
             tbot.send_message(chat_id=tid, text=text)
         else:
             tbot.send_message(chat_id=tid, text='\U0001F614 Расписание отуствует на указанный день')
