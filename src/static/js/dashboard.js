@@ -1,3 +1,6 @@
 $(document).ready(function() {
-    $('.js-example-basic-single').select2();
+    $('.select-subject-teacher').select2({
+        placeholder: "Выберите преподавателя",
+        allowClear: true
+    });
 });

@@ -1,0 +1,45 @@
+{% extends "layouts/base.html" %}
+{% block content %}
+    <div class="container-fluid">
+        <div class="row page-titles">
+            <div class="col-md-12 align-self-center">
+                <h3 class="col-md-12 text-themecolor pull-left">Учителя</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex">
+                            <div class="col-md-12">
+                                <h3 class="col-md-10 text-themecolor pull-left"><span class="lstick"></span>Список преподавательского состава</h3>
+                                <a class=' pull-right btn btn-success' href="/teachers/create" class="btn btn-warning">Добавить</a>
+                            </div>
+                        </div>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>ФИО</th>
+                                    <th>E-mail преподавателя</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for teacher in teacher_list %}
+                                    <tr>
+                                        <td>{{ teacher.fio }}</td>
+                                        <td>{{ teacher.email }}</td>
+                                        <td>
+                                            <a href="/teachers/{{ teacher.id }}" class="btn btn-warning">Редактировать</a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

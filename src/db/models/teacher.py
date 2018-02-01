@@ -12,3 +12,4 @@ class Teacher(db.Model):
                    primary_key=True)
     name = db.Column(db.VARCHAR(255))
     email = db.Column(db.VARCHAR(255))
+    subjects = db.relationship('Subject')

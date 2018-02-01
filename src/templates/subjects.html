@@ -1,0 +1,47 @@
+{% extends "layouts/base.html" %}
+{% block content %}
+    <div class="container-fluid">
+        <div class="row page-titles">
+            <div class="col-md-12 align-self-center">
+                <h3 class="col-md-12 text-themecolor pull-left">Предметы</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex">
+                            <div class="col-md-12">
+                                <h3 class="col-md-10 text-themecolor pull-left"><span class="lstick"></span>Список всех доступных предметов</h3>
+                                <a class=' pull-right btn btn-success' href="/subjects/create" class="btn btn-warning">Добавить</a>
+                            </div>
+                        </div>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Название предмета</th>
+                                    <th>Описание</th>
+                                    <th>Преподаватель</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for subject in subject_list %}
+                                    <tr>
+                                        <td>{{ subject.name }}</td>
+                                        <td>{{ subject.desc }}</td>
+                                        <td>{{ subject.teacher }}</td>
+                                        <td>
+                                            <a href="/subjects/{{ subject.id }}" class="btn btn-warning">Редактировать</a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
