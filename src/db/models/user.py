@@ -19,10 +19,12 @@ class User(db.Model):
                    server_default=db.text('gen_random_uuid()'),
                    primary_key=True)
     tid = db.Column(db.INTEGER)
+    email = db.Column(db.VARCHAR(120))
     password = db.Column(db.VARCHAR(256))
     course_group_id = db.Column(UUID, db.ForeignKey('course_groups.id'))
     course_group = db.relationship('CourseGroup')
 
+    is_admin = db.Column(db.BOOLEAN, default=False)
     is_banned = db.Column(db.BOOLEAN, default=False)
     banned_at = db.Column(db.TIMESTAMP(timezone=True))
     is_deleted = db.Column(db.BOOLEAN, default=False)

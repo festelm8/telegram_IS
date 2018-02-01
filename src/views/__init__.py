@@ -19,14 +19,11 @@ def handle_unprocessable_entity(err):
 def handle_unauthorized_user(err):
     return redirect(url_for('bp_web.login'))
 
-# @bp_web.route('/')
+@bp_web.route('/')
 # @login_required
-# def index():
-#     stream = Stream.query.first()
-#     if not stream:
-#         print('*** No streams added!')
-#         return False
-#     return redirect(url_for('bp_web.stream_statistic', stream_id=stream.id))
+def index():
+    return render_template('index.html')
+
 
 # @bp_web.route('/<stream_id>')
 # @login_required
