@@ -1,0 +1,67 @@
+{% extends "layouts/base.html" %}
+{% block content %}
+    <div class="container-fluid">
+        <div class="row page-titles">
+            <div class="col-md-12 align-self-center">
+                <h3 class="col-md-12 text-themecolor pull-left">Напрaвление подготовки</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        {% with messages = get_flashed_messages() %}
+                          {% if messages %}
+                             {% for message in messages %}
+                                <div class="alert alert-danger" role="alert">
+                                  {{ message }}
+                                </div>
+                            {% endfor %}
+                          {% endif %}
+                        {% endwith %}
+                        <div class="d-flex">
+                            <div class="col-md-12">
+                                <h3 class="col-md-10 text-themecolor pull-left"><span class="lstick"></span>Редактирование списка направлений подготовки</h3>
+                            </div>
+                        </div>
+                        <div class="col-md-7 mt-3">
+                            <form method="post">
+                                <div class="form-group">
+                                    <label>Название</label>
+                                    <input type="text" class="form-control" name="name" placeholder="Информатика и вычислительная техника" value="{{ course_theme_data.name if course_theme_data}}" required>
+                                    <small class="form-text text-muted">Обязательное поле</small>
+                                </div>
+                                {% if course_theme_data %}
+                                    <h5 class="col-md-10 text-themecolor pull-left"><span class="lstick"></span>Редактирование списка активных курсов по текущему направлению подготовки</h5>
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Активные курсы</th>
+                                                <th><a class=' pull-right btn btn-success' href="/course_themes/{{ course_theme_data.id }}/course_numbers/create" class="btn btn-warning">Добавить</a></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for course_number in course_theme_data.course_numbers_list %}
+                                                <tr>
+                                                    <td>{{ course_number.number }} курс</td>
+                                                    <td>
+                                                        <a href="/course_themes/{{ course_theme_data.id }}/course_numbers/{{ course_number.id }}" class="btn btn-warning">Редактировать</a>
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                {% endif %}
+                            <button type="submit" class="btn btn-primary">Сохранить</button>
+                            {% if course_theme_data %}
+                                <a class='ml-2 btn btn-danger' href="/course_themes/{{ course_theme_data.id }}/delete" class="btn btn-warning">Удалить</a>
+                            {% endif %}
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

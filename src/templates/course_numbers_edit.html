@@ -1,0 +1,91 @@
+{% extends "layouts/base.html" %}
+{% block content %}
+    <div class="container-fluid">
+        <div class="row page-titles">
+            <div class="col-md-12 align-self-center">
+                <h3 class="col-md-12 text-themecolor pull-left">Напрaвление подготовки</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        {% with messages = get_flashed_messages() %}
+                          {% if messages %}
+                             {% for message in messages %}
+                                <div class="alert alert-danger" role="alert">
+                                  {{ message }}
+                                </div>
+                            {% endfor %}
+                          {% endif %}
+                        {% endwith %}
+                        <div class="d-flex">
+                            <div class="col-md-12">
+                                <h3 class="col-md-10 text-themecolor pull-left"><span class="lstick"></span>Редактирование курса для направления подготовки</h3>
+                            </div>
+                        </div>
+                        <div class="col-md-7 mt-3">
+                            <form method="post">
+                                <div class="form-group">
+                                      <label>Номер курса</label>
+                                      <select class="select-course-number js-states form-control" name="number" required>
+                                        <option value="1" {% if course_number_data and course_number_data.number==1 %}selected{% else %} {% if 1 in reserved_courses%}disabled{% endif %} {% endif %}>1</option>
+                                        <option value="2" {% if course_number_data and course_number_data.number==2 %}selected{% else %} {% if 2 in reserved_courses%}disabled{% endif %} {% endif %}>2</option>
+                                        <option value="3" {% if course_number_data and course_number_data.number==3 %}selected{% else %} {% if 3 in reserved_courses%}disabled{% endif %} {% endif %}>3</option>
+                                        <option value="4" {% if course_number_data and course_number_data.number==4 %}selected{% else %} {% if 4 in reserved_courses%}disabled{% endif %} {% endif %}>4</option>
+                                        <option value="5" {% if course_number_data and course_number_data.number==5 %}selected{% else %} {% if 5 in reserved_courses%}disabled{% endif %} {% endif %}>5</option>
+                                        <option value="6" {% if course_number_data and course_number_data.number==6 %}selected{% else %} {% if 6 in reserved_courses%}disabled{% endif %} {% endif %}>6</option>
+                                        <option value="7" {% if course_number_data and course_number_data.number==7 %}selected{% else %} {% if 7 in reserved_courses%}disabled{% endif %} {% endif %}>7</option>
+                                        <option value="8" {% if course_number_data and course_number_data.number==8 %}selected{% else %} {% if 8 in reserved_courses%}disabled{% endif %} {% endif %}>8</option>
+                                      </select>
+                                      <small class="form-text text-muted">Обязательное поле</small>
+                                </div>
+                                <div class="form-group">
+                                      <label>Предметы для текущего курса</label>
+                                      <select class="select-course-number-subejcts js-states form-control" name="subjects[]" multiple="multiple" required>
+                                        {% for subject in subjects_list %}
+                                          <option value="{{ subject.id }}" {% if course_number_data and subject.id in course_number_data.reserved_subjects %}selected{% endif %}>{{ subject.name }}</option>
+                                        {% endfor %}
+                                      </select>
+                                      <small class="form-text text-muted">Обязательное поле</small>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary">Сохранить</button>
+                                {% if course_number_data %}
+                                    <a class='ml-2 btn btn-danger' href="/course_themes/{{ course_number_data.course_theme_id }}/course_numbers/{{ course_number_data.id }}/delete" class="btn btn-warning">Удалить</a>
+                                {% endif %}
+                            </form>
+                            {% if course_number_data %}
+                                <h5 class="col-md-10 text-themecolor pull-left mt-4 mb-3"><span class="lstick"></span>Редактирование списка активных групп учащихся студентов</h5>
+                                <form method="post" action="/course_themes/{{ course_number_data.course_theme_id }}/course_numbers/{{ course_number_data.id }}/create_group">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control col-md-7" name="gid" placeholder="Номер новой группы" value="" required>
+                                        <button type="submit" class="btn btn-success">Добавить группу</button>
+                                    </div>
+                                </form>
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Активные группы</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for course_group in course_number_data.reserved_groups %}
+                                        <tr>
+                                            <td>{{ course_group.gid }} курс</td>
+                                            <td>
+                                                <a href="/course_themes/{{ course_number_data.course_theme_id }}/course_numbers/{{ course_number_data.id }}/{{ course_group.id }}" class="btn btn-danger">Удалить</a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

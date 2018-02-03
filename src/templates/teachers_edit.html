@@ -28,12 +28,12 @@
                             <form method="post">
                               <div class="form-group">
                                 <label for="exampleInputEmail1">ФИО</label>
-                                <input type="text" class="form-control" id="exampleInputEmail1" name="name" placeholder="ФИО преподавателя" value="{{ teacher.fio }}" required>
+                                <input type="text" class="form-control" id="exampleInputEmail1" name="name" placeholder="ФИО преподавателя" value="{{ teacher.fio if teacher}}" required>
                                 <small class="form-text text-muted">Обязательное поле</small>
                               </div>
                               <div class="form-group">
                                 <label for="exampleInputEmail1">Email address</label>
-                                <input type="email" class="form-control" id="exampleInputEmail1" name="email" placeholder="example@mrsu.ru" value="{{ teacher.email }}">
+                                <input type="email" class="form-control" id="exampleInputEmail1" name="email" placeholder="example@mrsu.ru" value="{{ teacher.email if teacher}}">
                               </div>
                               <button type="submit" class="btn btn-primary">Сохранить</button>
                               {% if teacher %}

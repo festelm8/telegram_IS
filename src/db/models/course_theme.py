@@ -12,3 +12,4 @@ class CourseTheme(db.Model):
                    primary_key=True)
     name = db.Column(db.VARCHAR(255))
     course_number = db.relationship('CourseNumber')
+    course_number_lazy = db.relationship('CourseNumber', lazy='dynamic')

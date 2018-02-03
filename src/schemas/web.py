@@ -16,3 +16,16 @@ subects_create_post = {
     'teacher_id': fields.Str(required=True)
 }
 
+course_theme_create_post = {
+    'name': fields.Str(required=True),
+}
+
+course_number_create_post = {
+    'number': fields.Integer(required=True),
+    'subjects[]': fields.List(fields.Str(required=True), required=True)
+}
+
+course_group_create_post = {
+    'gid': fields.Str(required=True),
+}
+
