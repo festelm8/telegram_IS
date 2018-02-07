@@ -8,13 +8,12 @@ from src.db.models import CourseTheme, CourseNumber, CourseGroup, Subject, Class
 from src.db import session
 
 bp_tele = Blueprint('bp_tele', __name__)
-secret = '516834738:AAFiBE5c-0TDGBQUBY2OvDvHDgh0UNBZrOU'
-tbot = telebot.TeleBot(secret)
+tbot = telebot.TeleBot(current_app.config['TELEGRAM_BOT_TOKEN'])
 tbot.remove_webhook()
-tbot.set_webhook(url="https://1b684ef4.ngrok.io/{}".format(secret))
+tbot.set_webhook(url="https://1b684ef4.ngrok.io/{}".format(telebot.TeleBot(current_app.config['TELEGRAM_BOT_TOKEN'])))
 
 
-@bp_tele.route('/'+secret, methods=['POST'])
+@bp_tele.route('/'+current_app.config['TELEGRAM_BOT_TOKEN'], methods=['POST'])
 def webhook():
     # return "ok", 200
     updates = telebot.types.Update.de_json(request.stream.read().decode("utf-8"))
