@@ -41,3 +41,8 @@ class_schedule_edit_post = {
         }),
     ),
 }
+
+alert_post = {
+    'gid': fields.Str(),
+    'msg': fields.Str(required=True)
+}

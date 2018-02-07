@@ -8,7 +8,7 @@ from src.db.models import CourseTheme, ClassSchedule, CourseGroup, Subject
 from . import bp_web
 
 @bp_web.route('/class_schedule', methods=['GET', 'POST'])
-# @login_required
+@login_required
 def class_schedule():
     if request.method == 'POST':
         data = parser.parse(class_schedule_show_post, request)
@@ -66,7 +66,7 @@ def class_schedule():
 
 
 @bp_web.route('/class_schedule/edit', methods=['POST'])
-# @login_required
+@login_required
 def class_schedule_edit():
     data = request.form.to_dict()
     if data:

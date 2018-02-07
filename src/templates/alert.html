@@ -1,0 +1,59 @@
+{% extends "layouts/base.html" %}
+{% block content %}
+    <div class="container-fluid">
+        <div class="row page-titles">
+            <div class="col-md-12 align-self-center">
+                <h3 class="col-md-12 text-themecolor pull-left">Оповещение</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        {% with messages = get_flashed_messages() %}
+                          {% if messages %}
+                             {% for message in messages %}
+                                <div class="alert alert-danger" role="alert">
+                                  {{ message }}
+                                </div>
+                            {% endfor %}
+                          {% endif %}
+                        {% endwith %}
+                        {% if succ %}
+                            <div class="alert alert-success" role="alert">
+                              {{ succ }}
+                            </div>
+                        {% endif %}
+                        <div class="d-flex">
+                            <div class="col-md-12">
+                                <h3 class="col-md-10 text-themecolor pull-left"><span class="lstick"></span>Сообщение для всех студентов или для определенной группы</h3>
+                            </div>
+                        </div>
+                        <div class="col-md-7 mt-3">
+                            <form method="post">
+                              <div class="form-group">
+                                <textarea class="form-control" name="msg" rows="5" required></textarea>
+                              </div>
+                              <div class="form-group">
+                                <select class="select-schedule-group-alert js-states form-control" name="gid">
+                                    <option></option>
+                                    {% for course_theme in all_groups %}
+                                        <optgroup label="{{ course_theme.course_theme_name }}">
+                                        {% for group in course_theme.groups %}
+                                            <option value="{{ group.id }}">{{ group.gid }}</option>
+                                        {% endfor %}
+                                        </optgroup>
+                                    {% endfor %}
+                                </select>
+                                <small class="form-text text-muted">Обязательное поле</small>
+                              </div>
+                              <button type="submit" class="btn btn-primary">Оповестить</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

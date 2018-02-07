@@ -2,13 +2,14 @@ from flask import render_template, request, redirect, url_for, flash
 from flask_login import login_user, logout_user, login_required, current_user
 from webargs.flaskparser import parser, use_args
 
-from src.schemas.web import subects_create_post
+from src.schemas.web import subects_create_post, alert_post
 from src.db import session, db
-from src.db.models import Teacher, Subject
+from src.db.models import Teacher, Subject, CourseTheme, CourseGroup
+from src.telehandler import alert_students
 from . import bp_web
 
 @bp_web.route('/subjects')
-# @login_required
+@login_required
 def subjects():
     subjects = Subject.query.all();
     subject_list = dict()
@@ -23,7 +24,7 @@ def subjects():
 
 
 @bp_web.route('/subjects/create', methods=['GET', 'POST'])
-# @login_required
+@login_required
 def subject_create():
     teachers = Teacher.query.all();
     teacher_list = dict()
@@ -56,7 +57,7 @@ def subject_create():
 
 
 @bp_web.route('/subjects/<subject_id>', methods=['GET', 'POST'])
-# @login_required
+@login_required
 def subject_edit(subject_id):
     subject = Subject.query.get(subject_id)
     if not subject:
@@ -97,7 +98,7 @@ def subject_edit(subject_id):
     return render_template('subjects_edit.html', subject=subject, teacher_list=teacher_list)
 
 @bp_web.route('/subjects/<subject_id>/delete')
-# @login_required
+@login_required
 def subject_delete(subject_id):
     subject = Subject.query.get(subject_id)
     if not subject:
@@ -110,3 +111,44 @@ def subject_delete(subject_id):
     session.commit()
 
     return redirect(url_for('bp_web.subjects'))
+
+@bp_web.route('/alert', methods=['GET', 'POST'])
+@login_required
+def alert():
+    all_groups = list()
+    course_themes = CourseTheme.query.all();
+    if course_themes:
+        for course_theme in course_themes:
+            groups = list()
+            if course_theme.course_number:
+                course_numbers = course_theme.course_number
+                for course_number in course_numbers:
+                    if course_number.course_group:
+                        for group_data in course_number.course_group:
+                            groups.append({
+                                'id': group_data.id,
+                                'gid': group_data.gid
+                            })
+            all_groups.append({
+                'course_theme_name': course_theme.name,
+                'groups': groups
+            })
+
+    if request.method == 'POST':
+        data = parser.parse(alert_post, request)
+
+        if data.get('gid'):
+            course_group = CourseGroup.query.get(data.get('gid'))
+            if not course_group:
+                flash('Ну удалось отправить сообщение для указанной группы!')
+                return redirect(url_for('bp_web.alert'))
+            msg = '\u2757Сообщение для группы '+course_group.gid+'\u2757\r\n'+data.get('msg')
+            alert_students(group_id=course_group.id, msg=msg)
+            return redirect(url_for('bp_web.alert'))
+
+        msg = '\u2757Сообщение для всех студетов\u2757\r\n'+data.get('msg')
+        alert_students(group_id=None, msg=msg)
+        succ = 'Сообщение успешно доставлено!'
+        return render_template('alert.html', all_groups=all_groups, succ=succ)
+
+    return render_template('alert.html', all_groups=all_groups)

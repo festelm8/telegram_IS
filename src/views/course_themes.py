@@ -8,7 +8,7 @@ from src.db.models import CourseTheme, CourseNumber, CourseGroup, Subject
 from . import bp_web
 
 @bp_web.route('/course_themes')
-# @login_required
+@login_required
 def course_themes():
     course_themes = CourseTheme.query.all();
     course_themes_list = dict()
@@ -21,7 +21,7 @@ def course_themes():
 
 
 @bp_web.route('/course_themes/create', methods=['GET', 'POST'])
-# @login_required
+@login_required
 def course_theme_create():
     if request.method == 'POST':
         data = parser.parse(course_theme_create_post, request)
@@ -40,7 +40,7 @@ def course_theme_create():
 
 
 @bp_web.route('/course_themes/<course_theme_id>', methods=['GET', 'POST'])
-# @login_required
+@login_required
 def course_theme_edit(course_theme_id):
     course_theme = CourseTheme.query.get(course_theme_id)
     if not course_theme:
@@ -72,7 +72,7 @@ def course_theme_edit(course_theme_id):
 
 
 @bp_web.route('/course_themes/<course_theme_id>/delete')
-# @login_required
+@login_required
 def course_theme_delete(course_theme_id):
     course_theme = CourseTheme.query.get(course_theme_id)
     if not course_theme:
@@ -89,7 +89,7 @@ def course_theme_delete(course_theme_id):
 
 
 @bp_web.route('/course_themes/<course_theme_id>/course_numbers/create', methods=['GET', 'POST'])
-# @login_required
+@login_required
 def course_number_create(course_theme_id):
     course_theme = CourseTheme.query.get(course_theme_id)
     if not course_theme:
@@ -132,7 +132,7 @@ def course_number_create(course_theme_id):
 
 
 @bp_web.route('/course_themes/<course_theme_id>/course_numbers/<course_number_id>', methods=['GET', 'POST'])
-# @login_required
+@login_required
 def course_number_edit(course_theme_id, course_number_id):
     course_theme = CourseTheme.query.get(course_theme_id)
     if not course_theme:
@@ -201,7 +201,7 @@ def course_number_edit(course_theme_id, course_number_id):
 
 
 @bp_web.route('/course_themes/<course_theme_id>/course_numbers/<course_number_id>/delete')
-# @login_required
+@login_required
 def course_number_delete(course_theme_id, course_number_id):
     course_theme = CourseTheme.query.get(course_theme_id)
     if not course_theme:
@@ -222,7 +222,7 @@ def course_number_delete(course_theme_id, course_number_id):
 
 
 @bp_web.route('/course_themes/<course_theme_id>/course_numbers/<course_number_id>/create_group', methods=['POST'])
-# @login_required
+@login_required
 def course_group_create(course_theme_id, course_number_id):
     course_theme = CourseTheme.query.get(course_theme_id)
     if not course_theme:
@@ -250,7 +250,7 @@ def course_group_create(course_theme_id, course_number_id):
 
 
 @bp_web.route('/course_themes/<course_theme_id>/course_numbers/<course_number_id>/<course_group_id>')
-# @login_required
+@login_required
 def course_group_delete(course_theme_id, course_number_id, course_group_id):
     course_group = CourseGroup.query.get(course_group_id)
     if not course_group:

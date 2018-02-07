@@ -15,4 +15,8 @@ $(document).ready(function() {
         placeholder: "Выберите группу для которой нужно изменить расписание",
         allowClear: true
     });
+    $('.select-schedule-group-alert').select2({
+        placeholder: "Выберите группу которую нужно оповестить",
+        allowClear: true
+    });
 });

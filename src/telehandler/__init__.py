@@ -53,6 +53,7 @@ def send_welcome(message):
     if not user:
         user = User(
             tid=message.from_user.id,
+            is_admin=False
         )
         session.add(user)
         session.commit()
@@ -186,3 +187,16 @@ def class_schedule(dow, tid):
             tbot.send_message(chat_id=tid, text=text)
         else:
             tbot.send_message(chat_id=tid, text='\U0001F614 Расписание отуствует на указанный день')
+
+
+def alert_students(group_id, msg):
+    if group_id:
+        group = CourseGroup.query.get(group_id)
+        if group and group.students:
+            for student in group.students:
+                tbot.send_message(chat_id=student.tid, text=msg)
+    else:
+        users = User.query.filter_by(is_admin=False).all()
+        if users:
+            for user in users:
+                tbot.send_message(chat_id=user.tid, text=msg)

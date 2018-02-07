@@ -8,7 +8,7 @@ from src.db.models import Teacher
 from . import bp_web
 
 @bp_web.route('/teachers')
-# @login_required
+@login_required
 def teachers():
     teachers = Teacher.query.all();
     teacher_list = dict()
@@ -22,7 +22,7 @@ def teachers():
 
 
 @bp_web.route('/teachers/create', methods=['GET', 'POST'])
-# @login_required
+@login_required
 def teacher_create():
     if request.method == 'POST':
         data = parser.parse(teacher_create_post, request)
@@ -42,7 +42,7 @@ def teacher_create():
 
 
 @bp_web.route('/teachers/<teacher_id>', methods=['GET', 'POST'])
-# @login_required
+@login_required
 def teacher_edit(teacher_id):
     teacher = Teacher.query.get(teacher_id)
     if not teacher:
@@ -69,7 +69,7 @@ def teacher_edit(teacher_id):
     return render_template('teachers_edit.html', teacher=teacher)
 
 @bp_web.route('/teachers/<teacher_id>/delete')
-# @login_required
+@login_required
 def teacher_delete(teacher_id):
     teacher = Teacher.query.get(teacher_id)
     if not teacher:
