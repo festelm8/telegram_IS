@@ -6,14 +6,15 @@ import json
 
 from src.db.models import CourseTheme, CourseNumber, CourseGroup, Subject, ClassSchedule, User
 from src.db import session
+from src.lib.utils import get_config
 
 bp_tele = Blueprint('bp_tele', __name__)
-tbot = telebot.TeleBot(current_app.config['TELEGRAM_BOT_TOKEN'])
+tbot = telebot.TeleBot(get_config('TELEGRAM_BOT_TOKEN'))
 tbot.remove_webhook()
-tbot.set_webhook(url="https://1b684ef4.ngrok.io/{}".format(telebot.TeleBot(current_app.config['TELEGRAM_BOT_TOKEN'])))
+tbot.set_webhook(url="https://1b684ef4.ngrok.io/{}".format(get_config('TELEGRAM_BOT_TOKEN')))
 
 
-@bp_tele.route('/'+current_app.config['TELEGRAM_BOT_TOKEN'], methods=['POST'])
+@bp_tele.route('/'+get_config('TELEGRAM_BOT_TOKEN'), methods=['POST'])
 def webhook():
     # return "ok", 200
     updates = telebot.types.Update.de_json(request.stream.read().decode("utf-8"))
@@ -100,7 +101,7 @@ def get_course_groups(cn_id, tid):
 def subscribe(cg_id, tid):
     user = User.query.filter_by(tid=tid).first()
     cg = CourseGroup.query.get(cg_id)
-    if user and cg and user.course_group and user.course_group.id != cg_id:
+    if user and cg:
         user.course_group = cg
         session.commit()
 
