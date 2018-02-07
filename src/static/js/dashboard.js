@@ -11,4 +11,8 @@ $(document).ready(function() {
         placeholder: "Выберите предметы для текущего курса",
         allowClear: true
     });
+    $('.select-schedule-group').select2({
+        placeholder: "Выберите группу для которой нужно изменить расписание",
+        allowClear: true
+    });
 });

@@ -25,7 +25,7 @@ def create_app():
 
 
     app.register_blueprint(bp_app, url_prefix='/api')
-    # app.register_blueprint(bp_tele)
+    app.register_blueprint(bp_tele)
     app.register_blueprint(bp_web)
 
 

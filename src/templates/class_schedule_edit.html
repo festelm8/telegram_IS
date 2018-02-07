@@ -1,0 +1,45 @@
+{% extends "layouts/base.html" %}
+{% block content %}
+    <div class="container-fluid">
+        <div class="row page-titles">
+            <div class="col-md-12 align-self-center">
+                <h3 class="col-md-12 text-themecolor pull-left">Расписание</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex">
+                            <div class="col-md-12">
+                                <h3 class="col-md-10 text-themecolor pull-left"><span class="lstick"></span>Редактировать расписание для группы</h3>
+                            </div>
+                        </div>
+                        <form method="post" action="/class_schedule/edit">
+                            <input type="hidden" name="course_group_id" value="{{ current_group_id }}">
+                            {% for dow in schedules.dows %}
+                                <div class="alert alert-success">
+                                    <h4 class="alert-heading" >{{ dow.name }}</h4>
+                                    {% for less in schedules.less_seq %}
+                                        <div class="form-group d-inline-block col-md-2">
+                                            <input type="text" class="form-control col-md-7" name="{{ dow.id }}_{{ less }}_class" placeholder="Ауд." value="{{ current_schedule[dow.id ~ '_' ~ less ~ '_class'] if current_schedule[dow.id ~ '_' ~ less ~ '_class']}}" >
+                                            <select class="select-course-number js-states form-control" name="{{ dow.id }}_{{ less }}_subj" >
+                                                <option></option>
+                                                {% for subject in subjects_list %}
+                                                  <option value="{{ subject.id }}" {% if current_schedule[dow.id ~ '_' ~ less ~ '_subj'] and current_schedule[dow.id ~ '_' ~ less ~ '_subj']==subject.id %}selected{% endif %}>{{ subject.name }}</option>
+                                                {% endfor %}
+                                            </select>
+                                            <small class="form-text">{{ less }} пара</small>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            {% endfor %}
+                            <button type="submit" class="btn btn-primary">Сохранить</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

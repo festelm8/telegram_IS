@@ -1,0 +1,40 @@
+{% extends "layouts/base.html" %}
+{% block content %}
+    <div class="container-fluid">
+        <div class="row page-titles">
+            <div class="col-md-12 align-self-center">
+                <h3 class="col-md-12 text-themecolor pull-left">Расписание</h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex">
+                            <div class="col-md-12">
+                                <h3 class="col-md-10 text-themecolor pull-left"><span class="lstick"></span>Редактировать расписание для группы</h3>
+                            </div>
+                        </div>
+                        <form method="post" action="/class_schedule">
+                          <div class="form-group">
+                              <select class="select-schedule-group js-states form-control" name="gid" required>
+                                <option></option>
+                                {% for course_theme in all_groups %}
+                                    <optgroup label="{{ course_theme.course_theme_name }}">
+                                    {% for group in course_theme.groups %}
+                                        <option value="{{ group.id }}">{{ group.gid }}</option>
+                                    {% endfor %}
+                                    </optgroup>
+                                {% endfor %}
+                              </select>
+                              <small class="form-text text-muted">Обязательное поле</small>
+                          </div>
+                          <button type="submit" class="btn btn-warning">Редактировать</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

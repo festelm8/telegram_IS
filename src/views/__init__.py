@@ -15,6 +15,7 @@ bp_web = Blueprint('bp_web', __name__)
 from src.views import teachers
 from src.views import subjects
 from src.views import course_themes
+from src.views import class_schedule
 
 @bp_web.errorhandler(422)
 def handle_unprocessable_entity(err):

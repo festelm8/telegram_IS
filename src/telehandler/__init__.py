@@ -11,7 +11,7 @@ bp_tele = Blueprint('bp_tele', __name__)
 secret = '516834738:AAFiBE5c-0TDGBQUBY2OvDvHDgh0UNBZrOU'
 tbot = telebot.TeleBot(secret)
 tbot.remove_webhook()
-tbot.set_webhook(url="https://609be561.ngrok.io/{}".format(secret))
+tbot.set_webhook(url="https://1b684ef4.ngrok.io/{}".format(secret))
 
 
 @bp_tele.route('/'+secret, methods=['POST'])
