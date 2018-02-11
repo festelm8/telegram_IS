@@ -49,7 +49,7 @@ def login():
         if not user.verify_password(data.get('password')):
             return render_template('login.html', err_msg='Неверный email или пароль')
         login_user(user)
-        return redirect(url_for('bp_web.class_schedule'))
+        return redirect(url_for('bp_web.index'))
 
     return render_template('login.html', err_msg=None)
 

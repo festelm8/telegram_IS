@@ -11,7 +11,7 @@ from src.lib.utils import get_config
 bp_tele = Blueprint('bp_tele', __name__)
 tbot = telebot.TeleBot(get_config('TELEGRAM_BOT_TOKEN'))
 tbot.remove_webhook()
-tbot.set_webhook(url="https://1b684ef4.ngrok.io/{}".format(get_config('TELEGRAM_BOT_TOKEN')))
+tbot.set_webhook(url="https://e6f6fd01.ngrok.io/{}".format(get_config('TELEGRAM_BOT_TOKEN')))
 
 
 @bp_tele.route('/'+get_config('TELEGRAM_BOT_TOKEN'), methods=['POST'])
